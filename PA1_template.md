@@ -8,21 +8,47 @@ output:
 
 ## Loading  and preprocessing the data
 
-```{r}
+
+```r
 ## These libraries are used to process data...
 library(plyr)
 library(dplyr)
+```
 
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:plyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 #Now activities are in the activity.csv file:
 
 activities<-read.csv("activity.csv")
-
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r}
 
+```r
 #First calculate the total number of steps taken per day
 
 daily_activities<- activities %>%
@@ -39,26 +65,34 @@ hist(daily_activities$steps,
      ylim=c(0,30),
      col="red")
 ```
-```{r}
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
 #Now this is the mean of steps per day
 
 mean(daily_activities$steps)
-
 ```
 
-```{r}
+```
+## [1] 9354.23
+```
 
+
+```r
 #And this is the median...
 
 median(daily_activities$steps)
+```
 
+```
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
 
-```{r}
 
+```r
 #Display a time series of the average daily pattern for each 5 minute interval
 
 time_series<-activities %>%
@@ -68,23 +102,32 @@ time_series<-activities %>%
 plot(seq(1,288),time_series$steps,type="l", main="Average number of steps per interval",xlab="Interval",ylab="Number of steps")
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
+
+```r
 # On average the maximum number of steps occurs in the following interval
 
 which.max(time_series$steps)
 ```
+
+```
+## [1] 104
+```
 ## Imputing missing values
 
-```{r}
 
+```r
 # There are this number of missing values:
 nas<-is.na(activities$steps)
 sum(nas)
+```
 
 ```
-```{r}
+## [1] 2304
+```
 
+```r
 # Filling missing values with mean of corresponding 5 minute interval
 
 activities_notna<-activities
@@ -103,24 +146,32 @@ hist(daily_activities$steps,
      ylim=c(0,30),
      col="red")
 ```
-```{r}
 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+```r
 #Now this is the new mean of steps per day
 
 mean(daily_activities$steps)
-
 ```
 
-```{r}
+```
+## [1] 10765.64
+```
 
+
+```r
 #And this is the new median...
 
 median(daily_activities$steps)
+```
 
 ```
+## [1] 10762
+```
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
 
+```r
 #Add a factor to dataset, containing woorkday or weekend
 
 activities_notna <-activities_notna %>%
@@ -139,8 +190,8 @@ average_steps<-activities_notna%>%
 library(lattice)
 
 xyplot(steps ~ interval|weekday, average_steps,type="l",layout=c(1,2))
-
-
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 
